@@ -1,0 +1,32 @@
+@import '../../../styles/vars'
+
+.ButterMenu
+  width: 30px
+  height: 17px
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+  div
+    transition: all .5s
+    width: 100%
+    height: 1px
+    background-color: $fontColor
+    &.appear
+      transform: translateX(0) rotate(0)
+  .f
+    transform: translateX(200%) rotate(0deg) translate(0, 0)
+    transform-origin: 100% 0
+  .s
+    transform: translateX(200%)
+  .t
+    transform: translateX(200%)
+    opacity: 1
+  &.open
+    .s
+      transform: rotate(45deg)
+    .t
+      opacity: 0
+    .f
+      transform-origin: 100% 0
+      transform: rotate(-45deg) translate(-5%, -500%)
+

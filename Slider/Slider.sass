@@ -1,0 +1,78 @@
+@import '../../styles/vars'
+
+.Slider
+  overflow: hidden
+  height: 60vh
+  position: relative
+  margin-right: -$commonPadding
+  margin-left: -$commonPadding
+  padding: 0 $commonPadding
+  .loading
+    display: flex
+    align-items: center
+    flex-direction: column
+    margin-top: 10vh
+  .images
+    position: relative
+    &.slide
+      position: static
+      .item-image
+        position: static
+        display: inline-block
+        width: calc(100vw - 40px)
+  .item-image
+    position: absolute
+    top: 0
+    left: 0
+    opacity: 0
+    width: 100%
+    img
+      width: 100%
+    &.show
+      opacity: 1
+    &.fade.show
+      animation: fade 10s
+    &.slide.show
+      animation: slide 3s linear
+    &.slide.fade.show
+      animation: slide-fade 1s
+  .arrows
+    position: absolute
+    top: 0
+    left: 0
+    height: 100%
+    width: 100%
+    display: flex
+    justify-content: space-between
+    align-items: center
+    .left-arrow, .right-arrow
+      margin: 0 $commonPadding
+      height: 100%
+      display: flex
+      align-items: center
+      cursor: pointer
+      transition: background-color .5s
+      &:hover
+        background-color: rgba(0,0,0, .3)
+
+@keyframes fade
+  0%
+    opacity: 0
+  100%
+    opacity: 1
+
+
+@keyframes slide
+  0%
+    opacity: 1
+    transform: translateX(100%)
+  100%
+    transform: translateX(0)
+
+@keyframes slide-fade
+  0%
+    opacity: 0
+    transform: translateX(100%)
+  100%
+    opacity: 1
+    transform: translateX(0)
