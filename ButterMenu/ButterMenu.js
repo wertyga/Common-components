@@ -1,8 +1,13 @@
-import FlipMove from 'react-flip-move';
-
 import './ButterMenu.sass'
 
 export default class ButterMenu extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            open: this.props.open || false
+        };
+    };
 
     componentDidMount() {
         setTimeout(() => {
@@ -17,13 +22,25 @@ export default class ButterMenu extends React.Component {
 
     };
 
+    onClick = e => {
+        if(this.props.onClick) this.props.onClick();
+    };
+
 
     render() {
+
+        const style = {
+            div: {
+                backgroundColor: this.props.barColor || 'white',
+                height: this.props.barHeight || 1
+            }
+        };
+
         return (
-            <div className={this.props.open ? 'ButterMenu open' : 'ButterMenu'}>
-                <div className="f" ref="f"></div>
-                <div className="s" ref="s"></div>
-                <div className="t" ref="t"></div>
+            <div className={this.props.open ? 'ButterMenu open' : 'ButterMenu'} onClick={this.onClick}>
+                <div className="f" ref="f" style={style.div}></div>
+                <div className="s" ref="s" style={style.div}></div>
+                <div className="t" ref="t" style={style.div}></div>
             </div>
         );
     }
