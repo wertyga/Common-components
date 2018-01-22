@@ -30,7 +30,7 @@ export default class Option extends React.Component {
 
     setName = () => {
         const name = this.props.items.find(item => item.title === this.props.value);
-        return name ? name.name : this.props.emptyValue
+        return name ? name.name : this.props.value
     };
 
     onClick = (e) => {
@@ -62,13 +62,13 @@ export default class Option extends React.Component {
                                     this.setState({open: !this.state.open})
                                 }}
                             >
-                                {this.state.setName}
+                                {this.props.items.length < 1 ? this.props.emptyValue : this.state.setName}
                             </div>
                             <i className="down" style={this.props.iconStyle}/>
                         </div> :
                         <div className="loading">{this.props.loadingValue}</div>
                     }
-                    {this.state.open && !this.props.loading &&
+                    {this.state.open && !this.props.loading && this.props.items.length > 0 &&
                     <div className="other-content">
                         {this.props.items.map((item, i) => {
                                 return (
