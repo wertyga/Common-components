@@ -12,13 +12,13 @@ export default class Option extends React.Component {
 
     componentDidUpdate(prevProps, prevState) {
         if(this.state.open !== prevState.open) {
-           if(this.state.open) {
-               document.body.addEventListener('click', this.bodyClose);
-               document.body.addEventListener('keydown', this.bodyClose);
-           } else {
-               document.body.removeEventListener('click', this.bodyClose);
-               document.body.removeEventListener('keydown', this.bodyClose);
-           }
+            if(this.state.open) {
+                document.body.addEventListener('click', this.bodyClose);
+                document.body.addEventListener('keydown', this.bodyClose);
+            } else {
+                document.body.removeEventListener('click', this.bodyClose);
+                document.body.removeEventListener('keydown', this.bodyClose);
+            }
         };
 
         if(this.props.value !== prevProps.value) {
@@ -30,7 +30,7 @@ export default class Option extends React.Component {
 
     setName = () => {
         const name = this.props.items.find(item => item.title === this.props.value);
-        return name ? name.name : 'Выберите значение'
+        return name ? name.name : this.props.emptyValue
     };
 
     onClick = (e) => {
@@ -60,15 +60,13 @@ export default class Option extends React.Component {
                             className="default item"
                             onClick={() => { this.setState({ open: !this.state.open }) }}
                         >
-                            {this.props.value &&
-                            this.props.items.length > 0 &&
-                            this.state.setName}
+                            {this.state.setName}
                         </div>
                         <i className="down" style={this.props.iconStyle}/>
                     </div>
                     {this.state.open &&
-                        <div className="other-content">
-                            {this.props.items.map((item, i) => {
+                    <div className="other-content">
+                        {this.props.items.map((item, i) => {
                                 return (
                                     <div
                                         style={{ display: item.title === this.props.value && 'none' }}
@@ -77,14 +75,14 @@ export default class Option extends React.Component {
                                         key={i}
                                         onClick={this.onClick}
                                     >
-                                        {item.name}
+                                        {item.count ? `${item.name} - ${item.count}` : item.name}
                                     </div>
 
                                 );
                             }
 
-                            )}
-                        </div>
+                        )}
+                    </div>
                     }
                 </div>
             </div>
@@ -99,5 +97,6 @@ Option.propTypes = {
         title: PropTypes.string.isRequired, //title of inner value of the select
         name: PropTypes.string.isRequired, //name of visible value of the select
     })).isRequired,
-    onClick: PropTypes.func.isRequired //Function for changing between options
+    onClick: PropTypes.func.isRequired, //Function for changing between options
+    emptyValue: PropTypes.string.isRequired //Value where items props length is 0
 };
