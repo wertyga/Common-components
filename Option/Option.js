@@ -55,16 +55,20 @@ export default class Option extends React.Component {
             <div className={this.props.className ? `${this.props.className} Option` : 'Option'} onClick={this.optionClick} ref={node => this.mainRef = node}>
                 <label>{this.props.label}</label>
                 <div className="main-select">
-                    <div className="upper">
-                        <div
-                            className="default item"
-                            onClick={() => { this.setState({ open: !this.state.open }) }}
-                        >
-                            {this.state.setName}
-                        </div>
-                        <i className="down" style={this.props.iconStyle}/>
-                    </div>
-                    {this.state.open &&
+                    {!this.props.loading ? <div className="upper">
+                            <div
+                                className="default item"
+                                onClick={() => {
+                                    this.setState({open: !this.state.open})
+                                }}
+                            >
+                                {this.state.setName}
+                            </div>
+                            <i className="down" style={this.props.iconStyle}/>
+                        </div> :
+                        <div className="loading">{this.props.loadingValue}</div>
+                    }
+                    {this.state.open && !this.props.loading &&
                     <div className="other-content">
                         {this.props.items.map((item, i) => {
                                 return (
@@ -80,7 +84,6 @@ export default class Option extends React.Component {
 
                                 );
                             }
-
                         )}
                     </div>
                     }
@@ -98,5 +101,7 @@ Option.propTypes = {
         name: PropTypes.string.isRequired, //name of visible value of the select
     })).isRequired,
     onClick: PropTypes.func.isRequired, //Function for changing between options
-    emptyValue: PropTypes.string.isRequired //Value where items props length is 0
+    emptyValue: PropTypes.string.isRequired, //Value where items props length is 0
+    loading: PropTypes.bool.isRequired, //Loading
+    loadingValue: PropTypes.node.isRequired // Some value when is Loading
 };
