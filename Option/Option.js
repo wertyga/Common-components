@@ -57,8 +57,9 @@ export default class Option extends React.Component {
                 <div className="main-select">
                     {!this.props.loading ? <div className="upper">
                             <div
-                                className="default item"
+                                className={!this.props.disable ? 'default item' : 'default item disable'}
                                 onClick={() => {
+                                    if(this.props.disable) return;
                                     this.setState({open: !this.state.open})
                                 }}
                             >
@@ -100,8 +101,9 @@ Option.propTypes = {
         title: PropTypes.string.isRequired, //title of inner value of the select
         name: PropTypes.string.isRequired, //name of visible value of the select
     })).isRequired,
-    onClick: PropTypes.func.isRequired, //Function for changing between options
+    onClick: PropTypes.func.isRequired, //Function for changing between options with 'title' param
     emptyValue: PropTypes.string.isRequired, //Value where items props length is 0
     loading: PropTypes.bool.isRequired, //Loading
-    loadingValue: PropTypes.node.isRequired // Some value when is Loading
+    loadingValue: PropTypes.node.isRequired ,// Some value when is Loading
+    disable: PropTypes.bool ,// Boolean value for disabling
 };
