@@ -1,23 +1,17 @@
 @import '../../styles/vars'
 
 .Option
+  margin-top: 30px
   min-width: 26vw
   .default, .item, label
     padding: 5px 10px
   label
     padding-left: 0
-  //.default, .item
-  //  cursor: pointer
-  //  &:hover
-  //    background-color: $menuBgColor
   .item
     cursor: pointer
-  .default
-    //border: 1px solid $borderColor
   .main-select
     position: relative
     .carret
-      //position: absolute
       width: 10px
       height: 10px
       max-width: 10px
@@ -33,7 +27,7 @@
     align-items: center
     border: 1px solid $borderColor
     &:hover
-      background-color: $menuBgColor
+      background-color: white
     .default
       width: 100%
     i
@@ -43,13 +37,16 @@
         height: 15px
         border-left: 2px solid $borderColor
         border-bottom: 2px solid $borderColor
-        transform: rotate(-45deg) translate(0, -50%)
+        transform: rotate(-45deg)
         box-sizing: border-box
+        margin-bottom: 8px
   .other-content
     width: 100%
     margin-top: 3px
     position: absolute
-    background-color: $menuBgColor
+    background-color: white
+    border: 1px solid $borderColor
+    box-sizing: border-box
     z-index: 10
     .item, .default
       &:hover
