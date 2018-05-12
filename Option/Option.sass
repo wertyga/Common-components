@@ -1,8 +1,8 @@
-@import '../../styles/vars'
+@import '../../../styles/vars'
 
 .Option
   margin-top: 30px
-  min-width: 26vw
+  width: 26vw
   .default, .item, label
     padding: 5px 10px
   label
@@ -12,21 +12,11 @@
   .main-select
     position: relative
     margin-top: 10px
-    .carret
-      width: 10px
-      height: 10px
-      max-width: 10px
-      max-height: 10px
-      border-right: 3px solid $borderColor
-      border-top: 3px solid $borderColor
-      right: 10px
-      top: 50%
-      transform: translateY(-75%) rotate(135deg)
   .upper
     display: flex
     justify-content: space-between
     align-items: center
-    border: 1px solid $borderColor
+    //border: 1px solid $borderColor
     &:hover
       background-color: white
     .default
@@ -35,9 +25,11 @@
       margin-right: 10px
       &.down
         width: 18px
-        height: 15px
+        height: 14px
         border-left: 2px solid $borderColor
         border-bottom: 2px solid $borderColor
+        border-right: 2px solid transparent
+        border-top: 2px solid transparent
         transform: rotate(-45deg)
         box-sizing: border-box
         margin-bottom: 8px

@@ -1,96 +1,82 @@
-export default class Input extends React.Component {
+import './Input.sass';
 
-    componentDidUpdate(prevProps) {
-        if((this.props.hidden !== prevProps.hidden) && !this.props.hidden) {
-            this.input.focus();
+class Input extends React.Component{
+    constructor() {
+        super();
 
-            this.input.addEventListener('keyup', this.confirmChanging);
-            document.body.addEventListener('click', this.confirmChanging);
+        this.state = {
+            value: '',
+            focus: false
         };
     };
 
-    confirmChanging = e => {
-        if(!e.keyCode) {
-            if(e.target.getAttribute('name') === this.input.getAttribute('name')) {
-                return;
-            };
-            this.props.confirmChanging(this.props.name);
-            document.body.removeEventListener('click', this.confirmChanging);
-            return;
-        } else {
-            if(e.keyCode === 13) {
-                this.props.confirmChanging(this.props.name);
 
-            } else if(e.keyCode === 27){
-                this.props.cancelInputing(this.props.name);
+    onFocus = () => {
+        this.setState({
+            focus: true
+        });
+    }
 
-            };
-        }
+    onBlur = () => {
+        this.setState({
+            focus: false
+        });
+    }
 
-    };
+    onChange = (e) => {
+        this.setState({
+            value: e.target.value
+        });
+    }
 
     render() {
 
-        const input = (
-            <input
-                ref={node => this.input = node}
-                style={{
-                    display: this.props.hidden ? 'none' : 'inline-block',
-                    ...this.props.styleInput
-                }}
-                className="inner-input custom-input"
-                type={this.props.type || "text"}
-                placeholder={this.props.placeholder || '...'}
-                value={this.props.value}
-                name={this.props.name}
-                disabled={this.props.disabled}
-                onChange={this.props.onChange}
-            />
-        );
-        const textarea = (
-            <textarea
-                ref={node => this.input = node}
-                style={{
-                    display: this.props.hidden ? 'none' : 'inline-block',
-                    ...this.props.styleInput
-                }}
-                className="inner-input custom-input"
-                type={this.props.type || "text"}
-                placeholder={this.props.placeholder || '...'}
-                value={this.props.value}
-                name={this.props.name}
-                disabled={this.props.disabled}
-                onChange={this.props.onChange}
-            />
-        );
+        const styles = this.props.style || {};
 
         return (
-            <div className="Input" onClick={this.props.onClick} name={this.props.name}>
-                <div className="field"
-                     style={{
-                        display: !this.props.hidden ? 'none' : 'block',
-                         ...this.props.styleField
-                     }}>
-                    {this.props.fixedValue || 'Пусто'}
+            <div className={this.state.focus ? 'focus Input' : 'Input'} style={{ color: this.props.error && 'red' }}>
+                <div style={{ position: 'relative' }}>
+                    <input
+                        onFocus={this.onFocus}
+                        onBlur={this.onBlur}
+                        type={this.props.type || 'text'}
+                        style={{
+                            ...styles,
+                            color: this.props.error && 'red'
+                        }}
+                        placeholder={this.props.placeholder}
+                        className={this.state.focus ? 'focus' : undefined}
+                        value={this.props.value}
+                        onChange={e => this.props.onChange(e)}
+                        name={this.props.name}
+                        disabled={this.props.disabled}
+                    />
+                    <div className="borderBottom"></div>
+                    <div  className={(this.state.focus || (this.props.value || this.state.value)) ? 'focus floatText' : 'floatText'}
+                          style={{ color: this.props.error ? 'red' : (this.props.disabled && 'rgb(150, 150, 150)') }}
+                    >
+                        {this.props.floatText}
                     </div>
-                {this.props.textarea ? textarea : input}
+                    <div className={this.state.focus ? 'focus after' : 'after'}></div>
+                </div>
+                {this.props.error && <div className="error">{this.props.error}</div>}
             </div>
+
         );
-    };
+    }
 };
 
 Input.propTypes = {
-    type: PropTypes.string, //Input type
-    value: PropTypes.string, //initial input-value
-    name: PropTypes.string.isRequired, //Input name
-    placeholder: PropTypes.string, // placeholder value
-    label: PropTypes.string, //Id and label value
-    hidden: PropTypes.bool, //Show or hide input to edit field
-    disabled: PropTypes.bool, //Disabled input
-    textarea: PropTypes.bool, //Type of input: textarea or simple input
-    onChange: PropTypes.func.isRequired, //onChange function,
-    onClick: PropTypes.func.isRequired, //Function to chenge between plain field and input
-    confirmChanging: PropTypes.func.isRequired, //Function to confirm changing
-    fixedValue: PropTypes.string, //Value confirmed field
-    cancelInputing: PropTypes.func.isRequired, //Cancel changing field
+    type: PropTypes.string, // Type of Input
+    style: PropTypes.object, // Style of Input
+    placeholder: PropTypes.string, // Placeholder of Input
+    value: PropTypes.string, // Value of Input
+    onChange: PropTypes.func.isRequired, // OnChange of Input
+    name: PropTypes.string.isRequired, // Name of Input
+    error: PropTypes.string, // Error of Input
+    floatText: PropTypes.string, // FloatText of Input
+    disabled: PropTypes.bool, // Disabled of Input
+
 };
+
+export default Input;

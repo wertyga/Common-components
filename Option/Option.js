@@ -45,8 +45,10 @@ export default class Option extends React.Component {
         if(e.target.classList.contains('item')) return;
         if(e.keyCode === 27) {
             this.setState({ open: false });
+
         } else if(!e.keyCode) {
             this.setState({ open: false });
+
         };
     };
 
@@ -56,17 +58,23 @@ export default class Option extends React.Component {
                 <label>{this.props.label}</label>
                 <div className="main-select">
                     {!this.props.loading ? <div className="upper">
-                            <div
-                                className={!this.props.disable ? 'default item' : 'default item disable'}
-                                onClick={() => {
+                        <input
+                            type="text"
+                            placeholder='Choose pair...'
+                            className={!this.props.disable ? 'default item' : 'default item disable'}
+                            onClick={(e) => {
                                     if(this.props.disable) return;
-                                    this.setState({open: !this.state.open})
+                                    this.setState({open: !this.state.open});
                                 }}
-                            >
-                                {this.props.items.length < 1 ? this.props.emptyValue : this.state.setName}
-                            </div>
-                            <i className="down" style={this.props.iconStyle}/>
-                        </div> :
+                            value={this.props.value}
+                            onChange={e => {
+                                    this.setState({ open: true});
+                                    this.props.onChange(e);
+                                }}
+                            disabled={this.props.disabled}
+                        />
+
+                    </div> :
                         <div className="loading">{this.props.loadingValue}</div>
                     }
                     {this.state.open && !this.props.loading && this.props.items.length > 0 &&
@@ -95,15 +103,16 @@ export default class Option extends React.Component {
 };
 
 Option.propTypes = {
+    onChange: PropTypes.func.isRequired, //Func for searching value
     label: PropTypes.string, // Label for select
     value: PropTypes.string.isRequired, //Current value of select
     items: PropTypes.arrayOf(PropTypes.shape({
         title: PropTypes.string.isRequired, //title of inner value of the select
         name: PropTypes.string.isRequired, //name of visible value of the select
     })).isRequired,
+    emptyValue: PropTypes.string, //Empty value
     onClick: PropTypes.func.isRequired, //Function for changing between options with 'title' param
-    emptyValue: PropTypes.string.isRequired, //Value where items props length is 0
-    loading: PropTypes.bool.isRequired, //Loading
-    loadingValue: PropTypes.node.isRequired ,// Some value when is Loading
-    disable: PropTypes.bool ,// Boolean value for disabling
+    loading: PropTypes.bool, //Loading
+    loadingValue: PropTypes.node ,// Some value when is Loading
+    disable: PropTypes.bool,// Boolean value for disabling
 };
