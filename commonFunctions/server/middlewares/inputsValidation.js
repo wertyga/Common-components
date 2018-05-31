@@ -5,7 +5,7 @@ export default function(data, blankField = 'Field can not be blank') {
 
     Object.keys(data).forEach(item => {
         if(item.replace(/' '|-/g, '').toLowerCase() === 'email' && data[item].field && !validateEmail(data[item].field)) {
-            errors[item] = "Seems like it not an E-mal address"; console.log('Inside email validation')
+            errors[item] = "Seems like it is not an E-mail address";
         }
         if(data[item].require && !data[item].field) {
             errors[item] = blankField;
@@ -18,7 +18,7 @@ export default function(data, blankField = 'Field can not be blank') {
     }
 };
 
-function validateEmail(email) {
+export function validateEmail(email) {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
 }

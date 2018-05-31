@@ -34,9 +34,12 @@ class Input extends React.Component{
         const styles = this.props.style || {};
 
         return (
-            <div className={this.state.focus ? 'focus Input' : 'Input'} style={{ color: this.props.error && 'red' }}>
+            <div className={this.state.focus ? 'focus Input' : 'Input'} style={{ color: this.props.error && 'red' }} >
+                {this.props.label && <div className="label">{this.props.label}</div>}
                 <div style={{ position: 'relative' }}>
                     <input
+                        onClick={this.props.onClick}
+                        ref={this.props.inputRef}
                         onFocus={this.onFocus}
                         onBlur={this.onBlur}
                         type={this.props.type || 'text'}
@@ -57,7 +60,7 @@ class Input extends React.Component{
                     >
                         {this.props.floatText}
                     </div>
-                    <div className={this.state.focus ? 'focus after' : 'after'}></div>
+                    <div className={(this.state.focus && !this.props.disabled) ? 'focus after' : 'after'}></div>
                 </div>
                 {this.props.error && <div className="error">{this.props.error}</div>}
             </div>
@@ -76,6 +79,8 @@ Input.propTypes = {
     error: PropTypes.string, // Error of Input
     floatText: PropTypes.string, // FloatText of Input
     disabled: PropTypes.bool, // Disabled of Input
+    onClick: PropTypes.func, // Function for invoke some behavior when clicked on input
+    // ref: PropTypes.element, // Reference to this Input
 
 };
 

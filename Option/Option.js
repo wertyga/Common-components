@@ -1,3 +1,5 @@
+import Input from '../Input/Input';
+
 import './Option.sass';
 
 export default class Option extends React.Component {
@@ -54,27 +56,31 @@ export default class Option extends React.Component {
 
     render() {
         return (
-            <div className={this.props.className ? `${this.props.className} Option` : 'Option'} onClick={this.optionClick} ref={node => this.mainRef = node}>
+            <div className={this.props.className ? `${this.props.className} Option` : 'Option'} onClick={this.optionClick} ref={node => this.mainRef = node} style={this.props.style}>
                 <label>{this.props.label}</label>
                 <div className="main-select">
                     {!this.props.loading ? <div className="upper">
-                        <input
-                            type="text"
-                            placeholder='Choose pair...'
-                            className={!this.props.disable ? 'default item' : 'default item disable'}
-                            onClick={(e) => {
+                            <Input
+                                type="text"
+                                name="optionInput"
+                                placeholder='Choose pair...'
+                                // className={!this.props.disable ? 'default item' : 'default item disable'}
+                                onClick={(e) => {
                                     if(this.props.disable) return;
                                     this.setState({open: !this.state.open});
                                 }}
-                            value={this.props.value}
-                            onChange={e => {
+                                value={this.props.value}
+                                onChange={e => {
                                     this.setState({ open: true});
                                     this.props.onChange(e);
                                 }}
-                            disabled={this.props.disabled}
-                        />
+                                disabled={this.props.disabled}
+                                inputRef={this.props.inputRef}
+                                floatingText={this.props.floatingText}
+                                error={this.props.error}
+                            />
 
-                    </div> :
+                        </div> :
                         <div className="loading">{this.props.loadingValue}</div>
                     }
                     {this.state.open && !this.props.loading && this.props.items.length > 0 &&
